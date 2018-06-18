@@ -25,8 +25,16 @@ Enemy.prototype.render = function () {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function () {
+    // Initial postion x: 200 y: 375
+    this.reset();
 
     this.sprite = 'images/char-boy.png';
+};
+
+Player.prototype.reset = function () {
+    // Initial postion x: 200 y: 375
+    this.x = 200;
+    this.y = 375;
 };
 
 Player.prototype.update = function () {
@@ -38,14 +46,38 @@ Player.prototype.render = function () {
 };
 
 Player.prototype.handleInput = function (allowedKeys) {
+    if (allowedKeys === 'left') {
+        if (this.x > 0 && this.x <= 400) {
+            this.x -= 100;
+        }
+    } else if (allowedKeys === 'up') {
+        if (this.y > 150 && this.y <= 375) {
+            this.y -= 75;
+        } else if (this.y > -30 && this.y <= 150) {
+            this.y -= 90;
 
+            // Reset Player position
+            if (this.y < -10) {
+                this.reset();
+            }
+        }
+    } else if (allowedKeys === 'right') {
+        if (this.x >= 0 && this.x < 400) {
+            this.x += 100;
+        }
+    } else if (allowedKeys === 'down') {
+        if (this.y >= -30 && this.y < 150) {
+            this.y += 90;
+        } else if (this.y >= 150 && this.y < 375) {
+            this.y += 75;
+        }
+    }
 };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-
 var player = new Player();
 
 // This listens for key presses and sends the keys to your
