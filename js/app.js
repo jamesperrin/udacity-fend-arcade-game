@@ -1,29 +1,25 @@
-// Starting coloumn positions for Enemies
-const startPositions = [-50, -100, -200, -300, -400, -500, -600, -700, -800, -900, -1000];
+var Entity = function () {
+    this.x = 0;
+    this.y = 0;
+    this.w = 0;
+    this.h = 0;
+};
 
-// Starting row positions for Enemies
-const rowPositions = [55, 135, 215];
-// 55, 135, 215
-// 295, 375
+Entity.prototype.update = function (dt) {};
 
-/**
- * Generates a random number between a min and max range
- * @param {number} min Minimum number
- * @param {number} max Maxium number
- * @see 
- * https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
- * https://kadimi.com/negative-random/
- */
-function randomNumberRange(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-}
+// Draw the Entity on the screen, required method for game
+Entity.prototype.render = function () {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 // Enemies our player must avoid
-var Enemy = function (row, column, speed) {
+var Enemy = function (row, column, speed, height = 50, width = 78) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = row;
     this.y = column;
+    this.h = height;
+    this.w = width;
     this.speed = speed;
 
     // The image/sprite for our enemies, this uses
@@ -31,69 +27,88 @@ var Enemy = function (row, column, speed) {
     this.sprite = 'images/enemy-bug.png';
 };
 
+// Populate Enemy.prototype from Entity.prototype
+Enemy.prototype = Object.create(Entity.prototype);
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function (dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += Math.floor((this.y + this.speed) * dt); // Horizontal 0 to 502, Gameboard -98 to 501
 
-    if (this.x > 550) {
-        this.x = startPositions[randomNumberRange(0, 10)];
+    // Using Math.floor to ensure whole numbers are computed.
+    this.x += Math.floor(dt * this.speed); // Horizontal 0 to 502, Gameboard -98 to 501
+
+    if (this.x > gameSettings.board.right) {
+        this.x = gameSettings.board.left;
     }
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function () {
-    // Initial postion x: 200 y: 375
-    this.reset();
+    this.x = gameSettings.player.start.position.x;
+    this.y = gameSettings.player.start.position.y;
+    this.h = 50;
+    this.w = 50;
     this.sprite = 'images/char-boy.png';
 };
 
-Player.prototype.reset = function () {
-    // Initial postion x: 200 y: 375
-    this.x = 200;
-    this.y = 375;
+// Populate Enemy.prototype from Entity.prototype
+Player.prototype = Object.create(Entity.prototype);
+
+Player.prototype.setPosition = function () {
+    // Initial postion x: 200 y: 410
+    this.x = gameSettings.player.start.position.x;
+    this.y = gameSettings.player.start.position.y;
+};
+Player.prototype.success = function () {
+    this.setPosition();
+    console.info('Player reached water!');
+};
+
+Player.prototype.fail = function () {
+    // Initial postion x: 200 y: 410
+    this.setPosition();
 };
 
 Player.prototype.update = function () {
-    
-};
-
-Player.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (this.y < gameSettings.board.top) {
+        // Add small delay so Player can see they reached water.
+        setTimeout(player.success(), 25);
+    }
 };
 
 Player.prototype.handleInput = function (allowedKeys) {
+    const boundary = {
+        top: 0,
+        bottom: 410,
+        left: 0,
+        right: 400
+    };
+
+    const increment = {
+        UpDown: 85,
+        LeftRight: 100
+    };
+
     if (allowedKeys === 'left') {
-        if (this.x > 0 && this.x <= 400) {
-            this.x -= 100;
+        if (this.x > boundary.left && this.x <= boundary.right) {
+            this.x -= increment.LeftRight;
         }
     } else if (allowedKeys === 'up') {
-        if (this.y > -25 && this.y <= 375) {
-            this.y -= 80;
-        }
-
-        if (this.y <= -25) {
-            setTimeout(function () {
-                player.reset();
-            }, 100);
+        if (this.y > boundary.top && this.y <= boundary.bottom) {
+            this.y -= increment.UpDown;
         }
     } else if (allowedKeys === 'right') {
-        if (this.x >= 0 && this.x < 400) {
-            this.x += 100;
+        if (this.x >= boundary.left && this.x < boundary.right) {
+            this.x += increment.LeftRight;
         }
     } else if (allowedKeys === 'down') {
-        if (this.y > -25 && this.y < 375) {
-            this.y += 80;
+        if (this.y > boundary.top && this.y < boundary.bottom) {
+            this.y += increment.UpDown;
         }
     }
 };
@@ -102,26 +117,28 @@ Player.prototype.handleInput = function (allowedKeys) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 // Verticle 60, 150, 225
-var allEnemies = [];
+const allEnemies = [];
+const player = new Player();
 
-// Row 1 Enemies
-allEnemies[0] = new Enemy(-100, 55, 75);
-//allEnemies[1] = new Enemy(-300, 55, 75);
-allEnemies[2] = new Enemy(-900, 55, 200);
+function createEnenmies() {
+    // BUG Y: 230, 145, 60
+    // PLAYER Y: 410, 325, 240, 155, 70
+    // Horizontal On Gameboard -98 to 501. Off Gameboard -99 to 502.
 
-// Row 2 Enemies
-allEnemies[3] = new Enemy(-200, 135, 0);
-allEnemies[4] = new Enemy(-500, 135, 50);
-//allEnemies[5] = new Enemy(-700, 135, 0);
+    // Row 1 Enemies
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(1), gameSettings.board.row1, 125));
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(4), gameSettings.board.row1, 125));
 
-// Row 3 Enemies
-allEnemies[6] = new Enemy(-300, 215, -75);
-allEnemies[7] = new Enemy(-400, 215, -75);
-allEnemies[8] = new Enemy(-800, 215, 0);
+    // Row 2 Enemies
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(2), gameSettings.board.row2, 125));
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(6), gameSettings.board.row2, 125));
 
-// 55, 135, 215
-// 295, 375
-var player = new Player();
+    // Row 3 Enemies
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(1), gameSettings.board.row3, 225));
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(4), gameSettings.board.row3, 225));
+}
+
+createEnenmies();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
