@@ -13,7 +13,7 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
+var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
@@ -27,6 +27,31 @@ var Engine = (function(global) {
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+
+    const gameSettings = {
+        board: {
+            top: 0,
+            right: 502,
+            left: -100,
+            bottom: 410,
+            row1: 60,
+            row2: 145,
+            row3: 230
+        },
+        player: {
+            start: {
+                position: {
+                    x: 200,
+                    y: 410
+                }
+            }
+        },
+        enemy: {
+            start: {
+                offset: offset => -100 * offset
+            }
+        }
+    };
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -79,7 +104,26 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+
+    /**
+     * @description Checks if there is a collision between an enemy and player.
+     * 
+     * @see:
+     * http://blog.sklambert.com/html5-canvas-game-2d-collision-detection
+     * https://stackoverflow.com/questions/13916966/adding-collision-detection-to-images-drawn-on-canvas
+     */
+    function checkCollisions() {
+        allEnemies.forEach((enemy) => {
+            if (player.x < enemy.x + enemy.w && // e.w
+                player.x + player.w > enemy.x && // p.w
+                player.y < enemy.y + enemy.h && // e.h
+                player.y + player.h > enemy.y) { // p.h
+                player.fail();
+                console.info('Player touched an enemy!');
+            }
+        });
     }
 
     /* This is called by the update function and loops through all of the
@@ -90,7 +134,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -107,19 +151,19 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/water-block.png', // Top row is water
+                'images/stone-block.png', // Row 1 of 3 of stone
+                'images/stone-block.png', // Row 2 of 3 of stone
+                'images/stone-block.png', // Row 3 of 3 of stone
+                'images/grass-block.png', // Row 1 of 2 of grass
+                'images/grass-block.png' // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
             row, col;
-        
+
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -149,7 +193,7 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
 
@@ -173,7 +217,12 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
+
     ]);
     Resources.onReady(init);
 
@@ -182,4 +231,8 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+
+    // Makes game object global
+    global.gameSettings = gameSettings;
+
 })(this);
