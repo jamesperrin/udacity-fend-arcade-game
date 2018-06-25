@@ -1,6 +1,7 @@
 "use strict";
 
-const scoreboard = document.querySelector('.scoreboard span');
+const scoreboard = document.querySelector('.player-score span');
+const livesSpan = document.querySelector('.player-lives span');
 
 var Entity = function () {
     this.x = 0;
@@ -59,6 +60,7 @@ var Player = function () {
     this.w = 50;
     this.sprite = 'images/char-boy.png';
     this.score = 0;
+    this.lives = 3;
 };
 
 // Populate Enemy.prototype from Entity.prototype
@@ -81,8 +83,16 @@ Player.prototype.scoring = function () {
     scoreboard.textContent = this.score;
 };
 
+Player.prototype.loseLife = function () {
+    if (this.lives > 0) {
+        this.lives--;
+    }
+    livesSpan.textContent = this.lives;
+};
+
 Player.prototype.lose = function () {
     this.setPosition();
+    this.loseLife();
 };
 
 Player.prototype.update = function () {

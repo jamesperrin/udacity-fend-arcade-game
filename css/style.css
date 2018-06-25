@@ -2,17 +2,25 @@ body {
     text-align: center;
 }
 
-.main-container{
+.main-container {
     position: relative;
     min-height: 100px;
     width: 505px;
     margin: 0 auto;
-    /* border: 1px solid red; */
 }
 
-.scoreboard {
+.player-score {
     position: relative;
     float: left;
     font-size: 2em;
     top: 50px;
+    margin-left: 10px;
+}
+
+.player-lives {
+    position: relative;
+    float: right;
+    font-size: 2em;
+    top: 50px;
+    margin-right: 10px;
 }
