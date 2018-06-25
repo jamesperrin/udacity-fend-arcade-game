@@ -1,3 +1,5 @@
+"use strict";
+
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
@@ -23,10 +25,12 @@ var Engine = (function (global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+    
+    const mainContainer = document.querySelector('.main-container');
 
     canvas.width = 505;
     canvas.height = 606;
-    doc.body.appendChild(canvas);
+    mainContainer.appendChild(canvas);
 
     const gameSettings = {
         board: {
@@ -34,9 +38,7 @@ var Engine = (function (global) {
             right: 502,
             left: -100,
             bottom: 410,
-            row1: 60,
-            row2: 145,
-            row3: 230
+            rows: [60, 145, 230]
         },
         player: {
             start: {
@@ -120,7 +122,7 @@ var Engine = (function (global) {
                 player.x + player.w > enemy.x && // p.w
                 player.y < enemy.y + enemy.h && // e.h
                 player.y + player.h > enemy.y) { // p.h
-                player.fail();
+                player.lose();
                 console.info('Player touched an enemy!');
             }
         });

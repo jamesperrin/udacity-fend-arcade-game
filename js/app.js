@@ -1,3 +1,7 @@
+"use strict";
+
+const scoreboard = document.querySelector('.scoreboard span');
+
 var Entity = function () {
     this.x = 0;
     this.y = 0;
@@ -54,6 +58,7 @@ var Player = function () {
     this.h = 50;
     this.w = 50;
     this.sprite = 'images/char-boy.png';
+    this.score = 0;
 };
 
 // Populate Enemy.prototype from Entity.prototype
@@ -64,20 +69,25 @@ Player.prototype.setPosition = function () {
     this.x = gameSettings.player.start.position.x;
     this.y = gameSettings.player.start.position.y;
 };
-Player.prototype.success = function () {
+
+Player.prototype.won = function () {
     this.setPosition();
     console.info('Player reached water!');
+    this.scoring();
 };
 
-Player.prototype.fail = function () {
-    // Initial postion x: 200 y: 410
+Player.prototype.scoring = function () {
+    this.score += 10;
+    scoreboard.textContent = this.score;
+};
+
+Player.prototype.lose = function () {
     this.setPosition();
 };
 
 Player.prototype.update = function () {
     if (this.y < gameSettings.board.top) {
-        // Add small delay so Player can see they reached water.
-        setTimeout(player.success(), 25);
+        player.won()
     }
 };
 
@@ -126,16 +136,15 @@ function createEnenmies() {
     // Horizontal On Gameboard -98 to 501. Off Gameboard -99 to 502.
 
     // Row 1 Enemies
-    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(1), gameSettings.board.row1, 125));
-    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(4), gameSettings.board.row1, 125));
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(1), gameSettings.board.rows[randomNumberRange(0, 2)], 125));
+    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(2), gameSettings.board.rows[randomNumberRange(0, 2)], 125));
 
     // Row 2 Enemies
-    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(2), gameSettings.board.row2, 125));
-    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(6), gameSettings.board.row2, 125));
+    // allEnemies.push(new Enemy(gameSettings.enemy.start.offset(2), gameSettings.board.rows[1], 125));
+    // allEnemies.push(new Enemy(gameSettings.enemy.start.offset(6), gameSettings.board.rows[1], 125));
 
     // Row 3 Enemies
-    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(1), gameSettings.board.row3, 225));
-    allEnemies.push(new Enemy(gameSettings.enemy.start.offset(4), gameSettings.board.row3, 225));
+    // allEnemies.push(new Enemy(gameSettings.enemy.start.offset(4), gameSettings.board.rows[2], 225));
 }
 
 createEnenmies();
