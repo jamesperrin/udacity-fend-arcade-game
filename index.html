@@ -9,17 +9,44 @@
     <meta name="author" content="James Perrin">
     <title>Effective JavaScript: Frogger</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <div class="main-container">
-        <div class="player-score">Score:
-            <span>0</span>
+        <h1>Udacity's Arcade Clone Project</h1>
+
+        <div class="player-score">
+            Score: <span>0</span>
         </div>
-        <div class="player-lives">Lives: <span>3</span></div>
+
+        <div class="player-lives">
+            Lives: <span>3</span>
+        </div>
+
+        <div class="canvas"></div>
+
+        <div class="final-score-modal hidden">
+            <section>
+                <h1>Game Over!</h1>
+                <ul>
+                    <li class="final-score">
+                        <p>Good job!</p>
+                        <p>You scored <span>2000</span> points.</p>
+                    </li>
+                </ul>
+
+                <button title="Play again?">Play again?</button>
+            </section>
+        </div>
     </div>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="js/helpers.js"></script>
+    <script src="js/entities.js"></script>
     <script src="js/resources.js"></script>
     <script src="js/engine.js"></script>
     <script src="js/app.js"></script>

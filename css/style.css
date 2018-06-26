@@ -9,6 +9,10 @@ body {
     margin: 0 auto;
 }
 
+.main-container h1 {
+    margin-top: 25px;
+}
+
 .player-score {
     position: relative;
     float: left;
@@ -23,4 +27,66 @@ body {
     font-size: 2em;
     top: 50px;
     margin-right: 10px;
+}
+
+/*
+ * Styles for the final score modal
+ */
+
+.final-score-modal {
+    position: relative;
+    background: #7FFFD4;
+    border-radius: 2%;
+    width: 500px;
+    height: 250px;
+    top: 0;
+    left: 0;
+}
+
+.final-score-modal section {
+    position: relative;
+    width: 300px;
+    margin: auto;
+    padding: 0;
+}
+
+.final-score-modal h1 {
+    text-align: center;
+    font-size: 2em;
+}
+
+.final-score-modal ul {
+    text-align: left;
+    width: 80%;
+    font-size: 1.25em;
+}
+
+.final-score-modal li {
+    list-style: none;
+}
+
+.final-score-modal li p {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.final-score-modal li p:first-child {
+    padding-left: 15%;
+    font-weight: bold;
+    font-size: 1.25em;
+    margin-bottom: 10px;
+}
+
+.final-score-modal button {
+    font-size: 1.25em;
+    border-radius: 5%;
+    padding: 2%;
+}
+
+.hidden {
+    display: none;
+}
+
+#toast-container{
+    text-align: left;
 }
