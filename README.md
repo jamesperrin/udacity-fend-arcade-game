@@ -1,6 +1,26 @@
-frontend-nanodegree-arcade-game
+Udactiy Front-End Web Developer Nanodegree
 ===============================
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## Project - Arcade Clone - [**Live Demo**](https://jamesperrin.github.io/udacity-fend-project-arcade-game/)
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+### Table of Contents
+
+* [Description](#Description)
+* [Dependencies](#Dependencies)
+* [Resources](#Resources)
+
+### Description
+
+* This is Udacity's Arcade Clone Project that demonstrates a Student's mastery of HTML, CSS, JavaScript and  Object-Oriented JavaScript.
+* The Student is provided with a starter project containing some HTML and CSS styling to display a static version of the Memory Game project.
+* The Student is responsible for adding game functionality and custom styling.
+
+### Dependencies
+
+* [Google Fonts (IBM Plex Mono)](https://fonts.google.com/specimen/IBM+Plex+Mono)
+* [jQuery (Required by Toastr.js)](https://jquery.com/)
+* [Toastr.js](http://codeseven.github.io/toastr/)
+
+### Resources
+
+* [Udacity Start Project](https://github.com/udacity/frontend-nanodegree-arcade-game)
