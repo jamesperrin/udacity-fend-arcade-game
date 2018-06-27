@@ -29,10 +29,6 @@ body {
     margin-right: 10px;
 }
 
-.player-lives .fa-heart {
-    color: red;
-}
-
 /*
  * Styles for the final score modal
  */
