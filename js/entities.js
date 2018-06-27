@@ -93,7 +93,6 @@ Player.prototype.loseLife = function () {
     }
 
     if (this.lives == 0) {
-        
         gameOver();
     }
 
@@ -141,6 +140,4 @@ Player.prototype.handleInput = function (allowedKeys) {
             this.y += increment.UpDown;
         }
     }
-
-
 };
