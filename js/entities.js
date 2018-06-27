@@ -14,6 +14,17 @@ Entity.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+var Gem = function (row, column, height = 50, width = 78) {
+    this.x = row;
+    this.y = column;
+    this.h = height;
+    this.w = width;
+
+    const gemSprites = ['images/Gem Blue.png', 'images/Gem Green.png', 'images/Gem Orange.png'];
+    this.sprite = gemSprites[Helper.RandomNumberRange(0, 2)];
+};
+
+Gem.prototype = Object.create(Entity.prototype);
 
 // Enemies our player must avoid
 var Enemy = function (row, column, speed, height = 50, width = 78) {
@@ -73,41 +84,14 @@ Player.prototype.setPosition = function () {
     this.y = gameSettings.player.start.position.y;
 };
 
-Player.prototype.won = function () {
-    console.info('Player reached water!');
-    this.setPosition();
-    this.scoring();
-    createEnenmies();
-};
-
-Player.prototype.scoring = function () {
-    this.score += 100;
-    scoreboard.textContent = this.score.toLocaleString();
-    toastr["success"]("100+", "Players scores!");
-};
-
 Player.prototype.loseLife = function () {
     if (this.lives > 0) {
         this.lives--;
-        toastr["error"]("Player touched an enemy.", "OUACH!");
+        toastr["error"]("YOu touched an enemy.", "OUACH!");
     }
-
-    if (this.lives == 0) {
-        gameOver();
-    }
-
-    livesSpan.textContent = this.lives;
-};
-
-Player.prototype.lose = function () {
-    this.setPosition();
-    this.loseLife();
 };
 
 Player.prototype.update = function () {
-    if (this.y < gameSettings.board.top) {
-        player.won();
-    }
 };
 
 Player.prototype.handleInput = function (allowedKeys) {

@@ -28,6 +28,8 @@ const playAgainBtn = document.querySelector('.final-score-modal section button')
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
+var allGems = [];
+var player;
 
 /**
  * @description Function to handle creating Game enemy characters.
@@ -38,17 +40,31 @@ function createEnenmies() {
     // Horizontal On Gameboard -98 to 501. Off Gameboard -99 to 502.
     let enemyCount = 2;
 
-    if (player.score < 200 && allEnemies.length <= enemyCount) {
+    if (allEnemies.length < enemyCount) {
         for (let i = 0; i < enemyCount; i++) {
             pushEnemy();
         }
-    } else if (player.score >= 200) {
+    } else if (allEnemies.length >= enemyCount && player.score >= 200) {
         pushEnemy();
     }
 
     // Private helper function to add a new enemy - DRY/SOLID
     function pushEnemy() {
         allEnemies.push(new Enemy(gameSettings.enemy.start.offset(Helper.RandomNumberRange(1, 4)), gameSettings.board.rows[Helper.RandomNumberRange(0, 2)], Helper.RandomNumberRange(125, 400)));
+    }
+}
+
+/**
+ * @description Function to handle creating Game Gem characters.
+ */
+function createGems() {
+    // X: 10, 110, 210, 310, 410 
+    const validX = [10, 110, 210, 310, 410];
+    // Y: 89, 174, 259
+    const validY = [89, 174, 259];
+
+    if (allGems.length === 0 && player.score >= 100 && player.score % 300 === 0) {
+        allGems.push(new Gem(validX[Helper.RandomNumberRange(0, 4)], validY[(Helper.RandomNumberRange(0, 2))]));
     }
 }
 
@@ -79,8 +95,33 @@ function gameReset() {
     finalScoreSpan.textContent = player.score;
 
     allEnemies = [];
+    allGems = [];
     createEnenmies();
 };
+
+/**
+ * @description Function to check if Player reached the water.
+ */
+function checkPlayerScores() {
+    if (player.y < gameSettings.board.top) {
+        console.info('Player reached water!');
+        player.score += 100;
+        scoreboard.textContent = player.score.toLocaleString();
+        toastr["success"]("100+", "Players scores!");
+        setTimeout(() => player.setPosition(), 100);
+        createGems();
+        createEnenmies();
+    }
+};
+
+/**
+ * @description Function to check if Player lost, touching an enemy.
+ */
+function playerLostGame() {
+    player.setPosition();
+    player.loseLife();
+    livesSpan.textContent = player.lives;
+}
 
 /**
  * @description Function to handle initializing game logic.
@@ -89,6 +130,8 @@ function gameReset() {
  */
 function gameStart() {
     createEnenmies();
+
+    player = new Player();
 
     // This listens for key presses and sends the keys to your
     // Player.handleInput() method. You don't need to modify this.    
@@ -105,6 +148,7 @@ function gameStart() {
         };
 
         player.handleInput(allowedKeys[e.keyCode]);
+        checkPlayerScores();
     });
 
     playAgainBtn.addEventListener('click', gameReset);
@@ -113,5 +157,4 @@ function gameStart() {
 //=======================
 // Start game
 //=======================
-const player = new Player();
 gameStart();

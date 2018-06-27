@@ -14,7 +14,6 @@
  * This engine makes the canvas' context (ctx) object globally available to make 
  * writing app.js a little simpler to work with.
  */
-
 var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -64,8 +63,8 @@ var Engine = (function (global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
-        var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+        var now = Date.now();
+        var dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -106,6 +105,16 @@ var Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        checkGameStatus();
+    }
+
+    /**
+     * @description Checks the Play's game status.
+     */
+    function checkGameStatus() {
+        if (player.lives === 0) {
+            gameOver();
+        }
     }
 
     /**
@@ -121,8 +130,27 @@ var Engine = (function (global) {
                 player.x + player.w > enemy.x && // p.w
                 player.y < enemy.y + enemy.h && // e.h
                 player.y + player.h > enemy.y) { // p.h
-                player.lose();
+                playerLostGame();
                 console.info('Player touched an enemy!');
+                // allGems = [];
+            }
+        });
+
+        allGems.forEach((gem) => {
+            if (player.x < gem.x + gem.w && // g.w
+                player.x + player.w > gem.x && // p.w
+                player.y < gem.y + gem.h && // g.h
+                player.y + player.h > gem.y) { // p.h
+                allGems = [];
+                console.info('Player grabbed a GEM!');
+                toastr["success"]("You killed some bugs", "Player grabbed a gem!");
+
+                let bugKillCount = Helper.RandomNumberRange(1, 2);
+
+                for (let i = 1; i <= bugKillCount; i++) {
+                    console.info('You killed some bugs');
+                    allEnemies.pop();
+                }
             }
         });
     }
@@ -138,6 +166,7 @@ var Engine = (function (global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
+
         player.update();
     }
 
@@ -198,6 +227,10 @@ var Engine = (function (global) {
             enemy.render();
         });
 
+        allGems.forEach(function (enemy) {
+            enemy.render();
+        });
+
         player.render();
     }
 
@@ -222,8 +255,10 @@ var Engine = (function (global) {
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
-        'images/char-princess-girl.png'
-
+        'images/char-princess-girl.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png'
     ]);
     Resources.onReady(init);
 
