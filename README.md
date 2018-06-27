@@ -17,6 +17,7 @@ Udactiy Front-End Web Developer Nanodegree
 
 ### Dependencies
 
+* [Font awesome](https://fontawesome.com/)
 * [Google Fonts (IBM Plex Mono)](https://fonts.google.com/specimen/IBM+Plex+Mono)
 * [jQuery (Required by Toastr.js)](https://jquery.com/)
 * [Toastr.js](http://codeseven.github.io/toastr/)
