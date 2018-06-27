@@ -87,6 +87,24 @@ body {
     display: none;
 }
 
-#toast-container{
+#toast-container > div{
     text-align: left;
+    width: 230px;
+}
+
+@media only screen and (max-width: 1280px) {
+    canvas {
+        height: auto;
+        width: 405px;
+    }
+
+    .player-score {
+        top: 40px;
+        left: 50px;
+    }
+
+    .player-lives {
+        top: 40px;
+        left: -50px;
+    }
 }

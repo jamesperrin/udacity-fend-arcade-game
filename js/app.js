@@ -5,7 +5,7 @@ toastr.options = {
     "debug": false,
     "newestOnTop": true,
     "progressBar": true,
-    "positionClass": "toast-bottom-center",
+    "positionClass": "toast-bottom-right",
     "preventDuplicates": false,
     "onclick": null,
     "showDuration": "1000",
@@ -91,8 +91,7 @@ function gameStart() {
     createEnenmies();
 
     // This listens for key presses and sends the keys to your
-    // Player.handleInput() method. You don't need to modify this.
-    
+    // Player.handleInput() method. You don't need to modify this.    
     document.addEventListener('keyup', function (e) {
         var allowedKeys = {
             37: 'left',
