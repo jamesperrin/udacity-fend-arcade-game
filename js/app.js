@@ -24,6 +24,9 @@ const modal = document.querySelector('.final-score-modal');
 const finalScoreSpan = document.querySelector('.final-score-modal .final-score span');
 const canvas = document.querySelector('.canvas');
 const playAgainBtn = document.querySelector('.final-score-modal section button');
+const introBtn = document.querySelector('.intro-container button');
+const startScreen = document.querySelector('#start-screen');
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -153,6 +156,11 @@ function gameStart() {
 
     playAgainBtn.addEventListener('click', gameReset);
 }
+
+introBtn.addEventListener('click', function (e) {
+
+    startScreen.classList.add('hidden');
+});
 
 //=======================
 // Start game
