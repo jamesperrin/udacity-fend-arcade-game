@@ -7,7 +7,7 @@ var Entity = function () {
     this.h = 0;
 };
 
-Entity.prototype.update = function (dt) {};
+Entity.prototype.update = function () {};
 
 // Draw the Entity on the screen, required method for game
 Entity.prototype.render = function () {
