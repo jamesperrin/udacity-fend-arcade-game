@@ -48,8 +48,8 @@ const gameSettings = {
     }
 };
 
-const scoreboard = document.querySelector('.player-score span');
-const livesSpan = document.querySelector('.player-lives span');
+const scoreboard = document.querySelector('.player-score i + span');
+const livesSpan = document.querySelector('.player-lives i + span');
 const modal = document.querySelector('.final-score-modal');
 const finalScoreSpan = document.querySelector('.final-score-modal .final-score span');
 const canvas = document.querySelector('.canvas');
@@ -194,7 +194,6 @@ function gameStart() {
 // Handles Introduction "Start Game" button click event
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 introBtn.addEventListener('click', function (e) {
-
     startScreen.classList.add('hidden');
     document.querySelector('.main-container').classList.remove('hidden');
 });
