@@ -18,6 +18,36 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
+// Now instantiate your objects.
+// Place all enemy objects in an array called allEnemies
+// Place the player object in a variable called player
+var allEnemies = [];
+var allGems = [];
+var player;
+
+const gameSettings = {
+    board: {
+        top: 0,
+        right: 502,
+        left: -100,
+        bottom: 410,
+        rows: [60, 145, 230]
+    },
+    player: {
+        start: {
+            position: {
+                x: 200,
+                y: 410
+            }
+        }
+    },
+    enemy: {
+        start: {
+            offset: offset => -100 * offset
+        }
+    }
+};
+
 const scoreboard = document.querySelector('.player-score span');
 const livesSpan = document.querySelector('.player-lives span');
 const modal = document.querySelector('.final-score-modal');
@@ -27,27 +57,18 @@ const playAgainBtn = document.querySelector('.final-score-modal section button')
 const introBtn = document.querySelector('.intro-container button');
 const startScreen = document.querySelector('#start-screen');
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-var allEnemies = [];
-var allGems = [];
-var player;
 
 /**
  * @description Function to handle creating Game enemy characters.
  */
 function createEnenmies() {
-    // BUG Y: 230, 145, 60
-    // PLAYER Y: 410, 325, 240, 155, 70
-    // Horizontal On Gameboard -98 to 501. Off Gameboard -99 to 502.
-    let enemyCount = 2;
+    const enemyCount = 2;
 
     if (allEnemies.length < enemyCount) {
         for (let i = 0; i < enemyCount; i++) {
             pushEnemy();
         }
-    } else if (allEnemies.length >= enemyCount && player.score >= 200) {
+    } else if (allEnemies.length >= enemyCount && player.score > 100) {
         pushEnemy();
     }
 
@@ -56,6 +77,7 @@ function createEnenmies() {
         allEnemies.push(new Enemy(gameSettings.enemy.start.offset(Helper.RandomNumberRange(1, 4)), gameSettings.board.rows[Helper.RandomNumberRange(0, 2)], Helper.RandomNumberRange(125, 400)));
     }
 }
+
 
 /**
  * @description Function to handle creating Game Gem characters.
@@ -71,6 +93,7 @@ function createGems() {
     }
 }
 
+
 /**
  * @description Function to handle Game Over event
  * @see
@@ -84,6 +107,7 @@ function gameOver() {
     modal.classList.remove('hidden');
     playAgainBtn.focus();
 }
+
 
 /**
  * @description Function to handle resetting game logic.
@@ -102,10 +126,11 @@ function gameReset() {
     createEnenmies();
 };
 
+
 /**
  * @description Function to check if Player reached the water.
  */
-function checkPlayerScores() {
+function checkWhenPlayerScores() {
     if (player.y < gameSettings.board.top) {
         console.info('Player reached water!');
         player.score += 100;
@@ -117,6 +142,7 @@ function checkPlayerScores() {
     }
 };
 
+
 /**
  * @description Function to check if Player lost, touching an enemy.
  */
@@ -125,6 +151,7 @@ function playerLostGame() {
     player.loseLife();
     livesSpan.textContent = player.lives;
 }
+
 
 /**
  * @description Function to handle initializing game logic.
@@ -136,8 +163,10 @@ function gameStart() {
 
     player = new Player();
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // This listens for key presses and sends the keys to your
-    // Player.handleInput() method. You don't need to modify this.    
+    // Player.handleInput() method. You don't need to modify this.
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     document.addEventListener('keyup', function (e) {
         var allowedKeys = {
             37: 'left',
@@ -151,18 +180,26 @@ function gameStart() {
         };
 
         player.handleInput(allowedKeys[e.keyCode]);
-        checkPlayerScores();
+        checkWhenPlayerScores();
     });
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Handles Game Over "Play Again?" button click event
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     playAgainBtn.addEventListener('click', gameReset);
 }
 
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Handles Introduction "Start Game" button click event
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 introBtn.addEventListener('click', function (e) {
 
     startScreen.classList.add('hidden');
 });
 
-//=======================
+
+//~~~~~~~~~~~~~~~~~~~~~~~~
 // Start game
-//=======================
+//~~~~~~~~~~~~~~~~~~~~~~~~
 gameStart();

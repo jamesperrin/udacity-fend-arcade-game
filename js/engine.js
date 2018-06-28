@@ -26,29 +26,6 @@ var Engine = (function (global) {
     var lastTime;
     const mainContainerCanvas = document.querySelector('.canvas');
 
-    const gameSettings = {
-        board: {
-            top: 0,
-            right: 502,
-            left: -100,
-            bottom: 410,
-            rows: [60, 145, 230]
-        },
-        player: {
-            start: {
-                position: {
-                    x: 200,
-                    y: 410
-                }
-            }
-        },
-        enemy: {
-            start: {
-                offset: offset => -100 * offset
-            }
-        }
-    };
-
     canvas.width = 505;
     canvas.height = 606;
     mainContainerCanvas.appendChild(canvas);
@@ -132,7 +109,6 @@ var Engine = (function (global) {
                 player.y + player.h > enemy.y) { // p.h
                 playerLostGame();
                 console.info('Player touched an enemy!');
-                // allGems = [];
             }
         });
 
@@ -267,8 +243,4 @@ var Engine = (function (global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
-
-    // Makes game object global
-    global.gameSettings = gameSettings;
-
 })(this);
