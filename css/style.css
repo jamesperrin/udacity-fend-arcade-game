@@ -9,6 +9,21 @@ body {
     color: red;
 }
 
+/* 
+https://stackoverflow.com/questions/19758598/what-is-sr-only-in-bootstrap-3
+ */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
 #start-screen {
     position: absolute;
     top: 0;
@@ -26,7 +41,7 @@ body {
     text-align: left;
 }
 
-.intro-container h1{
+.intro-container h1 {
     text-align: center;
 }
 
@@ -238,8 +253,7 @@ body {
         position: relative;
         top: -30px;
     } */
-
-    .moving li{
+    .moving li {
         display: block;
         margin: 20px;
     }

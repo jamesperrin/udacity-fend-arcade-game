@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Udacity FEND Arcade Clone Project">
     <meta name="author" content="James Perrin">
+    <meta name="datecreated" content="20180604">
+    <meta name="datereviewed" content="20180628">
     <title>Effective JavaScript: Frogger</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono">
@@ -17,16 +19,93 @@
 </head>
 
 <body>
-    <div class="main-container">
+    <section id="start-screen" class="">
+        <section class="intro-container">
+            <h1>Udacity's Arcade Clone</h1>
+            <section class="instructions">
+                <h2>Instructions: </h2>
+
+                <ul>
+                    <li>The objective is to move your character
+                        <img src="images/char-boy.png" alt="Char Boy"> across the stones
+                        <img src="images/stone-block.png" alt="Stone Block"> towards the water
+                        <img src="images/water-block.png" alt="Water Block">
+                        <span>while avoiding the enemy bugs
+                            <img src="images/enemy-bug.png" alt="Enemy Bug">.</span>
+                    </li>
+                    <li>Touching a bug will cause the Player to lose one life
+                        <i aria-hidden class="fa fa-heart"></i>.</li>
+                    <li>Reaching the water will reward the Player with 100 
+                        <i aria-hidden class="fab fa-btc">
+                            <span class="sr-only">BTC</span>
+                        </i>.</li>
+                    <li> For every 100
+                        <i aria-hidden class="fab fa-btc">
+                            <span class="sr-only">BTC</span>
+                        </i> earned, the game will add a new bug.</li>
+                    <li>For every 300
+                        <i aria-hidden class="fab fa-btc">
+                            <span class="sr-only">BTC</span>
+                        </i> earned, the game will randomly add a Gem
+                        <img src="images/Gem Green.png" alt="Gem Green">.</li>
+                    <li>Grabbing a Gem will randomly kill 1 or 2 bugs.</li>
+                </ul>
+            </section>
+
+            <section class="moving">
+                <h2>Moving:</h2>
+                <ul>
+                    <li>
+                        <strong>UP</strong> -
+                        <i aria-hidden class="fa fa-arrow-up" title="Up arrow key">
+                            <span class="sr-only">Up arrow key</span>
+                        </i> or
+                        <span class="key" title="W key">W</span>
+                    </li>
+                    <li>
+                        <strong>DOWN</strong> -
+                        <i aria-hidden class="fa fa-arrow-down" title="Down arrow key">
+                            <span class="sr-only">Down arrow key</span>
+                        </i> or
+                        <span class="key" title="S key">S</span>
+                    </li>
+                    <li>
+                        <strong>LEFT</strong> -
+                        <i aria-hidden class="fa fa-arrow-left" title="Left arrow key">
+                            <span class="sr-only">Left arrow key</span>
+                        </i> or
+                        <span class="key" title="A key">A</span>
+                    </li>
+                    <li>
+                        <strong>RIGHT</strong> -
+                        <i aria-hidden class="fa fa-arrow-right" title="Right arrow key">
+                            <span class="sr-only">Right arrow key</span>
+                        </i> or
+                        <span class="key" title="D key">D</span>
+                    </li>
+                </ul>
+            </section>
+
+            <div class="intro-action">
+                <button title="Start Game">Start Game</button>
+            </div>
+        </section>
+    </section>
+
+    <div class="main-container hidden">
         <h1>Udacity's Arcade Clone Project</h1>
 
         <div class="player-score">
-            <i class="fab fa-btc"></i>
+            <i aria-hidden class="fab fa-btc">
+                <span class="sr-only">BTC: </span>
+            </i>
             <span>0</span>
         </div>
 
         <div class="player-lives">
-            <i class="fa fa-heart"></i>
+            <i aria-hidden class="fa fa-heart">
+                <span class="sr-only">Lives: </span>
+            </i>
             <span>3</span>
         </div>
 
@@ -40,7 +119,9 @@
                         <p>Good job!</p>
                         <p>You earned
                             <span>2000</span>
-                            <i class="fab fa-btc"></i>.</p>
+                            <i aria-hidden class="fab fa-btc">
+                                <span class="sr-only"> BTC</span>
+                            </i>.</p>
                     </li>
                 </ul>
 
@@ -48,51 +129,6 @@
             </section>
         </div>
     </div>
-
-    <section id="start-screen" class="">
-        <section class="intro-container">
-            <h1>Udacity's Arcade Clone</h1>
-            <section class="instructions">
-                <h2>Instructions: </h2>
-
-                <ul>
-                    <li>The objective is to move your character <img src="images/char-boy.png" alt="Char Boy"> across the stones <img src="images/stone-block.png" alt="Stone Block"> towards the water <img src="images/water-block.png" alt="Water Block">
-                        <span>while avoiding the enemy bugs <img src="images/enemy-bug.png" alt="Enemy Bug">.</span>
-                    </li>
-                    <li>Touching a bug will cause the Player to lose one life 
-                        <i class="fa fa-heart"></i>.</li>
-                    <li>Reaching the water will reward the Player with 100
-                        <i class="fab fa-btc"></i>.</li>
-                    <li> For every 100
-                        <i class="fab fa-btc"></i> earned, the game will add a new bug.</li>
-                    <li>For every 300
-                        <i class="fab fa-btc"></i> earned, the game will randomly add a Gem <img src="images/Gem Green.png" alt="Gem Green">.</li>
-                    <li>Grabbing a Gem will randomly kill 1 or 2 bugs.</li>
-                </ul>
-            </section>
-            <section class="moving">
-                <h2>Moving:</h2>
-                <ul>
-                    <li><strong>UP</strong> -
-                        <i class="fa fa-arrow-up"></i> or <span class="key">W</span>
-                    </li>
-                    <li><strong>DOWN</strong> -
-                        <i class="fa fa-arrow-down"></i> or <span class="key">S</span>
-                    </li>
-                    <li><strong>LEFT</strong> -
-                        <i class="fa fa-arrow-left"></i> or <span class="key">A</span>
-                    </li>
-                    <li><strong>RIGHT</strong> -
-                        <i class="fa fa-arrow-right"></i> or <span class="key">D</span>
-                    </li>
-                </ul>
-            </section>
-
-            <div class="intro-action">
-                <button title="Start Game">Start Game</button>
-            </div>
-        </section>
-    </section>
 
     <script src="//code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>

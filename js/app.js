@@ -196,8 +196,8 @@ function gameStart() {
 introBtn.addEventListener('click', function (e) {
 
     startScreen.classList.add('hidden');
+    document.querySelector('.main-container').classList.remove('hidden');
 });
-
 
 //~~~~~~~~~~~~~~~~~~~~~~~~
 // Start game
